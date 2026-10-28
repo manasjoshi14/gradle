@@ -8,7 +8,7 @@ The pinned source baseline is `e04ee63317eeb36ac5102b6a3aa7e6cd931850a2`.
 
 The `Normalized source cache experiment` workflow runs only by manual dispatch on the public `manasjoshi14/gradle` fork. It uses standard `ubuntu-24.04` runners, performs no Actions cache or artifact upload, and has read-only repository permissions. It creates no issues or pull requests.
 
-Each session builds both source distributions on the same VM. The baseline restores only the routing source to the pinned revision; all other production sources must match that revision. It checks the original 16 unit cases, confirms the two new reuse cases fail under the original routing, checks all 23 candidate unit cases, and runs the 10 existing native integration cases plus performance scenario metadata verification.
+Each session builds both source distributions on the same VM. The baseline restores only the routing source to the pinned revision; all other production sources must match that revision. It checks the original 16 unit cases, confirms the two new reuse cases fail under the original routing, checks all 23 candidate unit cases, and runs the 10 existing native integration cases plus performance scenario metadata verification. Source-build test retries are disabled so expected failures and flaky failures remain visible in the exact test counts.
 
 The portable functional check and paired benchmark cases run after source builds finish. Fresh checkouts and the raw-input negative control use the requested file count. Cold-cache and concurrent cases use at most 1,000 files; the cold-cache control uses at most three measured pairs to bound disk use. Actual dimensions are recorded in each report. Matrix sessions run sequentially on separate fresh VMs.
 

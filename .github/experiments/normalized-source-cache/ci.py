@@ -45,6 +45,7 @@ def invoke(command, name):
 
 def gradle(tasks, name):
     return invoke(['./gradlew', *tasks, '--no-daemon', '--max-workers=2',
+                   '--init-script', str(SUITE / 'no-test-retries.init.gradle'),
                    '--console=plain', '--stacktrace', '-PignoreIncomingBuildReceipt=true',
                    '-PbuildTimestamp=20261026160000+0000'], name)
 

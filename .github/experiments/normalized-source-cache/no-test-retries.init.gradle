@@ -1,0 +1,10 @@
+import org.gradle.api.tasks.testing.Test
+
+gradle.lifecycle.beforeProject { project ->
+    project.afterEvaluate { evaluatedProject ->
+        evaluatedProject.tasks.withType(Test).configureEach { test ->
+            test.extensions.findByName('develocity')?.testRetry?.maxRetries?.set(0)
+            test.extensions.findByName('retry')?.maxRetries?.set(0)
+        }
+    }
+}
