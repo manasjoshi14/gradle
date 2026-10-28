@@ -18,6 +18,20 @@ These are exploratory measurements on shared hosted infrastructure. Repeat sessi
 
 The final workflow step writes a checksummed ZIP containing raw JSON, XML and build logs as Base64 chunks prefixed with `EXPERIMENT_EVIDENCE_CHUNK` in the job log. The enclosing begin marker supplies its SHA-256. No runtimes, source workspaces, or caches are included. This preserves evidence without creating billable Actions artifacts. Download the job logs and decode the chunks separately for each session.
 
+After a run completes, the collection helper downloads its logs through the authenticated GitHub CLI, verifies each evidence checksum, and extracts the sessions. It performs read-only GitHub calls. Supply an empty output directory for a new run:
+
+```bash
+python3 .github/experiments/normalized-source-cache/collect.py \
+  --run-id 40632716920 \
+  --output /tmp/normalized-cache-synthetic-results
+python3 .github/experiments/normalized-source-cache/analyze.py \
+  /tmp/normalized-cache-synthetic-results
+```
+
+`analyze.py` retains every measured pair, verifies equal outputs and task keys, and calculates paired medians and within-session bootstrap intervals. These intervals do not establish independence between shared hosted VMs.
+
+For a native run, use `analyze-native.py` on its collected output directory instead. Add `--require-traces` for runs with retained measured-build logs. It verifies five measured samples per version, two warmups per version, and a `:compileJava FROM-CACHE` trace for every measured sample. Native samples run in version blocks and are summarized without treating them as interleaved pairs.
+
 ## Build the two distributions
 
 Use two clean local checkouts of the pinned revision. Export `git diff e04ee63317eeb36ac5102b6a3aa7e6cd931850a2 HEAD` from the experiment branch to a patch and apply it only to the candidate checkout. Keep build outputs and Gradle user homes outside the source directories that the benchmark will create. This preparation happens before measurement.
