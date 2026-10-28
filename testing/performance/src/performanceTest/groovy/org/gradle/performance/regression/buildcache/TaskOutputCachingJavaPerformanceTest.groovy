@@ -21,6 +21,9 @@ import org.gradle.performance.annotations.Scenario
 import org.gradle.performance.fixture.CrossVersionPerformanceTestRunner
 import org.gradle.performance.fixture.JavaTestProject
 import org.gradle.performance.mutator.RetryingClearGradleUserHomeMutator
+import org.gradle.profiler.BuildContext
+import org.gradle.profiler.BuildMutator
+import org.gradle.profiler.Phase
 import org.gradle.profiler.mutations.AbstractScheduledMutator
 import org.gradle.profiler.mutations.ApplyAbiChangeToJavaSourceFileMutator
 import org.gradle.profiler.mutations.ApplyNonAbiChangeToJavaSourceFileMutator
@@ -165,12 +168,35 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
         setupTestProject(runner)
         runner.minimumBaseVersion = "7.2"
         runner.useDaemon = false
-        runner.args += "--no-watch-fs"
+        runner.args += ["--no-watch-fs", "--console=plain"]
         runner.warmUpRuns = 3
         runner.runs = 10
         pushToRemote = false
+        runner.addInterceptor { builder ->
+            builder.invocation {
+                buildLog(new File(workingDirectory, "build.log"))
+            }
+        }
         runner.addBuildMutator { invocationSettings ->
             new ClearProjectCacheMutator(invocationSettings.projectDir, AbstractScheduledMutator.Schedule.BUILD)
+        }
+        runner.addBuildMutator { invocationSettings ->
+            new BuildMutator() {
+                @Override
+                void beforeBuild(BuildContext context) {
+                    invocationSettings.buildLog.text = ""
+                }
+
+                @Override
+                void afterBuild(BuildContext context, Throwable error) {
+                    def trace = new File(invocationSettings.outputDir, "build-${context.phase}-${context.iteration}.log")
+                    trace.parentFile.mkdirs()
+                    trace.bytes = invocationSettings.buildLog.bytes
+                    if (error == null && context.phase == Phase.MEASURE) {
+                        assert trace.readLines().contains("> Task :compileJava FROM-CACHE")
+                    }
+                }
+            }
         }
 
         when:
