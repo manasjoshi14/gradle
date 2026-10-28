@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "recovered_sessions_identical_to_verified_campaign": [
+    {
+      "session": "session-1",
+      "sha256": "dcd77b433d77955821c42774f7880f4b05eb47ba440552b94cd8d111a6018b09"
+    },
+    {
+      "session": "session-2",
+      "sha256": "07d3178b22604833cecbd69d9b2b9d854ff5f57475ec9448dc370cbf2e3767e9"
+    },
+    {
+      "session": "session-3",
+      "sha256": "88e00ca1700d8cb14c6f828a2142b901a31e4e651a750ca31bf0937a55db291b"
+    }
+  ]
+}

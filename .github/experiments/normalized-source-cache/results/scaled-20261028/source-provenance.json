@@ -1,0 +1,33 @@
+{
+  "baseline": "e04ee63317eeb36ac5102b6a3aa7e6cd931850a2",
+  "complete_experiment_head": "4395376fa993f4e22ae3b3ccab7857c610ab0ad5",
+  "changed_files": [
+    ".github/experiments/normalized-source-cache/README.md",
+    ".github/experiments/normalized-source-cache/analyze-native.py",
+    ".github/experiments/normalized-source-cache/analyze.py",
+    ".github/experiments/normalized-source-cache/ci.py",
+    ".github/experiments/normalized-source-cache/collect.py",
+    ".github/experiments/normalized-source-cache/fixture/build.gradle",
+    ".github/experiments/normalized-source-cache/fixture/gradle.properties",
+    ".github/experiments/normalized-source-cache/fixture/settings.gradle",
+    ".github/experiments/normalized-source-cache/native-scaling.init.gradle",
+    ".github/experiments/normalized-source-cache/no-test-retries.init.gradle",
+    ".github/experiments/normalized-source-cache/operations.init.gradle",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/RESULTS.md",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/cache-scope-audit.json",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/cost-audit.json",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/native-summary.csv",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/native-summary.json",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/runner-hardware.json",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/synthetic-summary.csv",
+    ".github/experiments/normalized-source-cache/results/hosted-20261028/synthetic-summary.json",
+    ".github/experiments/normalized-source-cache/run.py",
+    ".github/workflows/normalized-source-cache-native.yml",
+    ".github/workflows/normalized-source-cache.yml",
+    ".teamcity/performance-tests-ci.json",
+    "subprojects/core/src/main/java/org/gradle/api/internal/changedetection/state/SplitResourceSnapshotterCacheService.java",
+    "subprojects/core/src/test/groovy/org/gradle/api/internal/changedetection/state/SplitResourceSnapshotterCacheServiceTest.groovy",
+    "testing/internal-performance-testing/src/main/groovy/org/gradle/performance/generator/JavaTestProjectGenerator.groovy",
+    "testing/performance/src/performanceTest/groovy/org/gradle/performance/regression/buildcache/TaskOutputCachingJavaPerformanceTest.groovy"
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "verified_utc": "2026-10-28T10:48:48.105577+00:00",
+  "repo": "manasjoshi14/gradle",
+  "valid_timing_sessions": 24,
+  "session_case_rows": 36,
+  "measured_source_invocations": 480,
+  "source_functional_invocations": 192,
+  "measured_native_cache_hit_traces": 120,
+  "samples_dropped": 0,
+  "public_repository": true,
+  "artifact_objects": 0,
+  "active_actions_caches": 0,
+  "active_workflows": [
+    ".github/workflows/normalized-source-cache-native.yml",
+    ".github/workflows/normalized-source-cache.yml"
+  ],
+  "pending_workflow_runs": [],
+  "evidence": [
+    {
+      "benchmark": "synthetic",
+      "files": 10000,
+      "session": "session-1",
+      "run_id": 40654899513,
+      "evidence_sha256": "ee605e97f63102878e87c4a5ee7734bd3abe4f50ab0dea943a5693b011458443"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 10000,
+      "session": "session-2",
+      "run_id": 40654899513,
+      "evidence_sha256": "15baa02ef01b68e1a11ac58d2aa57882a22f27a1403b08c4a12d6174fadabe3b"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 10000,
+      "session": "session-3",
+      "run_id": 40654899513,
+      "evidence_sha256": "e4c9e53be463f2889dd34df75b79bd8fed0952fa2bdc4630333fe65a277013e5"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 50000,
+      "session": "session-1",
+      "run_id": 40654903858,
+      "evidence_sha256": "dcd77b433d77955821c42774f7880f4b05eb47ba440552b94cd8d111a6018b09"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 50000,
+      "session": "session-2",
+      "run_id": 40654903858,
+      "evidence_sha256": "07d3178b22604833cecbd69d9b2b9d854ff5f57475ec9448dc370cbf2e3767e9"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 50000,
+      "session": "session-3",
+      "run_id": 40654903858,
+      "evidence_sha256": "88e00ca1700d8cb14c6f828a2142b901a31e4e651a750ca31bf0937a55db291b"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 100000,
+      "session": "session-1",
+      "run_id": 40654908735,
+      "evidence_sha256": "67418f779cc5cfb8bfd817ddc4ee6833c06f3ccfb21293ad5a092437a5cfe7db"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 100000,
+      "session": "session-2",
+      "run_id": 40654908735,
+      "evidence_sha256": "02792566b54c66b78a10e336db2d988695bbe43f2c4bc911d5b396ef72887f25"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 100000,
+      "session": "session-3",
+      "run_id": 40654908735,
+      "evidence_sha256": "dfbd5bf188c16d565b87d7ef9d4f7062113e36fa902045f549838b28b342ed10"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 150000,
+      "session": "session-1",
+      "run_id": 40654913060,
+      "evidence_sha256": "4d18ade90664fe4952617e4b49e074bb1893fca0c01b49d8120a4e8d87d611fd"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 150000,
+      "session": "session-2",
+      "run_id": 40654913060,
+      "evidence_sha256": "364c47bc7ae7f4968d9325437190ad0690051a02a92bdd564c307174018af322"
+    },
+    {
+      "benchmark": "synthetic",
+      "files": 150000,
+      "session": "session-3",
+      "run_id": 40654913060,
+      "evidence_sha256": "553fee1557b3dd82403c7bdb1fd07d4ceaf2fe1acc6209dca74c563e6563e58e"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 10000,
+      "session": "session-native-1",
+      "run_id": 40661322679,
+      "evidence_sha256": "c4d4f256b849cc2db131fe041a1ff94753b7b4989c6ce5edc0dbb0ca45fb0e37"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 10000,
+      "session": "session-native-2",
+      "run_id": 40661322679,
+      "evidence_sha256": "11741811c1f6eb028c63960aed84b0e42cd5fe5f5e45c403f29134a1e1a041d8"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 10000,
+      "session": "session-native-3",
+      "run_id": 40661322679,
+      "evidence_sha256": "df497dfd3e6e71529448a8a323283ecf51ad192cfb49b52d00b0f1f28ce13024"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 50000,
+      "session": "session-native-1",
+      "run_id": 40663940702,
+      "evidence_sha256": "0ae302c427cd891f2a09d33299ea2aa864bb2ac8d20f12a45dad90621e204911"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 50000,
+      "session": "session-native-2",
+      "run_id": 40663940702,
+      "evidence_sha256": "60e875b52c5d9f4f9baef6db5fbb897efab8f42f3f656a1a57aa6c08a34e5791"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 50000,
+      "session": "session-native-3",
+      "run_id": 40663940702,
+      "evidence_sha256": "c2a8e873a55e48b43f831a35bddc2520d63bb3a4f43acdc62e8672c4bf280085"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 100000,
+      "session": "session-native-1",
+      "run_id": 40668040873,
+      "evidence_sha256": "98d3a039a7a559289b3a957091ef6ced647052f8ba7db2866e36d33708173618"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 100000,
+      "session": "session-native-2",
+      "run_id": 40668040873,
+      "evidence_sha256": "7875826c0f2633cb16be4198d7a0ff623aa0906c9c52f66bb9e9d990ae4a95d6"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 100000,
+      "session": "session-native-3",
+      "run_id": 40668040873,
+      "evidence_sha256": "e9b8c29afc4e23c33a3a0adf89051bf950bd5c4ac3bc1e803d63e7ff569d4dc0"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 150000,
+      "session": "session-native-1",
+      "run_id": 40668047581,
+      "evidence_sha256": "ca5e213270fe9987bb5af199db6f3f4bd06784aef75b1e9586fa5a02f1caac0d"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 150000,
+      "session": "session-native-2",
+      "run_id": 40668047581,
+      "evidence_sha256": "d3c29875e6b5c6779c48cb841c7d30276082c6c3d32a326018517e334bfb5488"
+    },
+    {
+      "benchmark": "native_java",
+      "files": 150000,
+      "session": "session-native-3",
+      "run_id": 40668047581,
+      "evidence_sha256": "1e2150453d51dc18bad57c708626925c63cc2d60e2f21dba20e4d7f6b56b911e"
+    }
+  ],
+  "scope": "Targeted correctness and exploratory hosted performance; no upstream issue or PR and no paid resources provisioned."
+}

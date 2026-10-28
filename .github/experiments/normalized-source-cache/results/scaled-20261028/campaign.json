@@ -1,0 +1,190 @@
+{
+  "created_utc": "2026-10-28T08:10:23.338743+00:00",
+  "repo": "manasjoshi14/gradle",
+  "branch": "infra/normalized-source-cache-experiment",
+  "file_counts": [
+    10000,
+    50000,
+    100000,
+    150000
+  ],
+  "benchmark_types_requested": [
+    "synthetic",
+    "native-java"
+  ],
+  "synthetic": {
+    "10000": {
+      "run_id": 40654899513,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40654899513",
+      "source_commit": "4805d27b3b45df25343145f0dd92e239d84b0caf",
+      "sessions": 3,
+      "measured_pairs_per_case": 10,
+      "warmup_pairs": 2,
+      "cases": [
+        "fresh-normalized",
+        "fresh-raw"
+      ],
+      "bytes_per_file": 8192,
+      "status": "dispatched"
+    },
+    "50000": {
+      "run_id": 40654903858,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40654903858",
+      "source_commit": "4805d27b3b45df25343145f0dd92e239d84b0caf",
+      "sessions": 3,
+      "measured_pairs_per_case": 10,
+      "warmup_pairs": 2,
+      "cases": [
+        "fresh-normalized",
+        "fresh-raw"
+      ],
+      "bytes_per_file": 8192,
+      "status": "dispatched",
+      "setup_retries": [
+        {
+          "attempt": 1,
+          "job_id": 122703469535,
+          "reason": "No console progress during source configuration for more than 45 minutes; cancelled before any benchmark timing. Successful peer measurements retained; retry only this job."
+        }
+      ]
+    },
+    "100000": {
+      "run_id": 40654908735,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40654908735",
+      "source_commit": "4805d27b3b45df25343145f0dd92e239d84b0caf",
+      "sessions": 3,
+      "measured_pairs_per_case": 10,
+      "warmup_pairs": 2,
+      "cases": [
+        "fresh-normalized",
+        "fresh-raw"
+      ],
+      "bytes_per_file": 8192,
+      "status": "dispatched",
+      "setup_retries": [
+        {
+          "attempt": 1,
+          "job_id": 122703485365,
+          "reason": "No console progress during source configuration for more than 45 minutes; cancelled before any benchmark timing. Successful peer measurements retained; retry only this job."
+        }
+      ]
+    },
+    "150000": {
+      "run_id": 40654913060,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40654913060",
+      "source_commit": "4805d27b3b45df25343145f0dd92e239d84b0caf",
+      "sessions": 3,
+      "measured_pairs_per_case": 10,
+      "warmup_pairs": 2,
+      "cases": [
+        "fresh-normalized",
+        "fresh-raw"
+      ],
+      "bytes_per_file": 8192,
+      "status": "dispatched"
+    }
+  },
+  "native_java": {
+    "10000": {
+      "run_id": 40661322679,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40661322679",
+      "source_commit": "9e393c5aab6ee7d95a53f5f18eedf14fb3c71d52",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched"
+    },
+    "50000": {
+      "run_id": 40663940702,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40663940702",
+      "source_commit": "9e393c5aab6ee7d95a53f5f18eedf14fb3c71d52",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched"
+    },
+    "100000": {
+      "run_id": 40668040873,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40668040873",
+      "source_commit": "4395376fa993f4e22ae3b3ccab7857c610ab0ad5",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched"
+    },
+    "150000": {
+      "run_id": 40668047581,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40668047581",
+      "source_commit": "4395376fa993f4e22ae3b3ccab7857c610ab0ad5",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched"
+    }
+  },
+  "upstream_issue_or_pr_created": false,
+  "paid_resources_provisioned": false,
+  "launches_complete": true,
+  "failed_setup_runs": [
+    {
+      "run_id": 40656119976,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40656119976",
+      "source_commit": "3e8905cbe0d",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched",
+      "files": 10000,
+      "reason": "Native performance source imported groovy.json.JsonOutput, which is absent from the performance-test compile classpath; no native timings produced",
+      "final_conclusion": "failure",
+      "measured_samples": 0
+    },
+    {
+      "run_id": 40658265189,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40658265189",
+      "source_commit": "a95574c522dc1b91120d27dcefd32bca9f190013",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched",
+      "files": 10000,
+      "reason": "Gradle test worker filters the custom count environment variable; source inventory guard failed before timings. Two jobs failed; remaining preparation cancelled. Replaced with explicit JVM property wiring.",
+      "final_conclusion": "cancelled",
+      "measured_samples": 0
+    },
+    {
+      "run_id": 40663947129,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40663947129",
+      "source_commit": "9e393c5aab6ee7d95a53f5f18eedf14fb3c71d52",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched",
+      "files": 100000,
+      "reason": "First warmup compiled successfully but jar failed at the 65,535-entry legacy ZIP limit; no measured samples. Enable ZIP64 equally on both large fixtures.",
+      "final_conclusion": "failure",
+      "measured_samples": 0
+    },
+    {
+      "run_id": 40663954473,
+      "url": "https://github.com/manasjoshi14/gradle/actions/runs/40663954473",
+      "source_commit": "9e393c5aab6ee7d95a53f5f18eedf14fb3c71d52",
+      "sessions": 3,
+      "measured_runs_per_version": 5,
+      "warmups_per_version": 2,
+      "source_inventory_and_cache_hits_required": true,
+      "status": "dispatched",
+      "files": 150000,
+      "reason": "First warmup compiled successfully but jar failed at the 65,535-entry legacy ZIP limit; no measured samples. Enable ZIP64 equally on both large fixtures.",
+      "final_conclusion": "failure",
+      "measured_samples": 0
+    }
+  ]
+}

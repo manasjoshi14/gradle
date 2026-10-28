@@ -15,14 +15,23 @@ import zipfile
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run-id', required=True)
-    parser.add_argument('--job-id')
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument('--job-id')
+    selection.add_argument('--attempt', type=int)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
+    if args.attempt is not None and args.attempt < 1:
+        parser.error('--attempt must be positive')
     args.output.mkdir(parents=True, exist_ok=True)
     repo = 'manasjoshi14/gradle'
+    endpoint = f'repos/{repo}/actions/runs/{args.run_id}'
+    if args.attempt is not None:
+        endpoint += f'/attempts/{args.attempt}'
     metadata = json.loads(subprocess.check_output(
-        ['gh', 'api', f'repos/{repo}/actions/runs/{args.run_id}'], text=True))
+        ['gh', 'api', endpoint], text=True))
     (args.output / 'workflow-run.json').write_text(json.dumps(metadata, indent=2) + '\n')
+    if args.attempt is not None:
+        (args.output / f'workflow-run-attempt-{args.attempt}.json').write_text(json.dumps(metadata, indent=2) + '\n')
     if args.job_id:
         job = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/actions/jobs/{args.job_id}'], text=True))
         assert job['status'] == 'completed', job['status']
@@ -33,8 +42,9 @@ def main():
         documents = [('job-' + args.job_id, raw)]
     else:
         assert metadata['status'] == 'completed', metadata['status']
-        raw = subprocess.check_output(['gh', 'api', f'repos/{repo}/actions/runs/{args.run_id}/logs'])
-        (args.output / 'github-logs.zip').write_bytes(raw)
+        raw = subprocess.check_output(['gh', 'api', endpoint + '/logs'])
+        log_name = f'github-logs-attempt-{args.attempt}.zip' if args.attempt is not None else 'github-logs.zip'
+        (args.output / log_name).write_bytes(raw)
         with zipfile.ZipFile(io.BytesIO(raw)) as logs:
             documents = [(name, logs.read(name)) for name in logs.namelist()]
     seen = set()

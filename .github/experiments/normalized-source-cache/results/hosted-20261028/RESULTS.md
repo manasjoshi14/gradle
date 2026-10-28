@@ -19,7 +19,7 @@ The original split, introduced by Stefan Oehme in 2018 (`908c6ab6c80b861f506c4f4
 - First successful native source: `6d71cfde127381d9a907f2c2427654db65ab3621`.
 - Cache-hit-verified native repeat source: `007fb3d547fc8547f8216ac15b7fc6547de83c52`.
 - Temurin JDK `25.0.3+9`, standard public GitHub-hosted `ubuntu-24.04` VMs. Source builds finish before measurement.
-- Each VM compares both variants. Separate variant user homes and task-output caches are populated through ordinary builds; binary cache indexes are never copied between them.
+- Each VM compares both variants. Variants use separate user homes. The synthetic suite uses separate task-output cache directories; the native suite clears its local task-output cache at the start of each version. Caches are populated through ordinary builds; binary metadata indexes are never copied between variants.
 - Fork workflow, collection and analysis files support the experiment. The production change remains the single routing change and its updated class documentation.
 - Hosted VMs are shared infrastructure. Their results avoid laptop contention but do not provide dedicated-machine isolation.
 
