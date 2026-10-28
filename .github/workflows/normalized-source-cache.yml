@@ -6,7 +6,7 @@ on:
       files:
         description: Source files per serial case
         type: choice
-        options: ['1000', '5000', '10000']
+        options: ['1000', '5000', '10000', '50000']
         default: '1000'
       runs:
         description: Measured pairs per case

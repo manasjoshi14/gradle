@@ -12,6 +12,8 @@ Each session builds both source distributions on the same VM. The baseline resto
 
 The portable functional check and paired benchmark cases run after source builds finish. Fresh checkouts and the raw-input negative control use the requested file count. Cold-cache and concurrent cases use at most 1,000 files; the cold-cache control uses at most three measured pairs to bound disk use. Actual dimensions are recorded in each report. Up to three matrix sessions run in parallel on separate fresh VMs, each comparing both variants within its own job.
 
+The first hosted VM reported about 85 GiB free before building. Available space is not assumed for subsequent jobs: a conservative retained-workspace estimate is checked before measurements. The 50,000-file choice is available when that check passes.
+
 These are exploratory measurements on shared hosted infrastructure. Repeat sessions and retain adverse results; a successful workflow alone does not establish a performance benefit.
 
 The final workflow step writes a checksummed ZIP containing raw JSON, XML and build logs as Base64 chunks prefixed with `EXPERIMENT_EVIDENCE_CHUNK` in the job log. The enclosing begin marker supplies its SHA-256. No runtimes, source workspaces, or caches are included. This preserves evidence without creating billable Actions artifacts. Download the job logs and decode the chunks separately for each session.

@@ -129,6 +129,13 @@ def build():
 
 
 def benchmark(files, runs, warmups, scenario):
+    estimated_bytes = files * 8192 * (2 * (runs + warmups) + 3) * (3 if scenario == 'all' else 2) + 4 * 1024 ** 3
+    free_bytes = shutil.disk_usage(OUT).free
+    save('capacity.json', {'free_bytes_before_measurement': free_bytes,
+                          'estimated_retained_workspace_bytes': estimated_bytes,
+                          'files': files, 'runs': runs, 'warmups': warmups, 'scenario': scenario})
+    if free_bytes < estimated_bytes:
+        raise RuntimeError(f'Insufficient runner disk: {free_bytes} free bytes; estimated {estimated_bytes} needed')
     common = [sys.executable, str(SUITE / 'run.py'),
               '--baseline', str(OUT / 'runtimes/baseline/bin/gradle'),
               '--candidate', str(OUT / 'runtimes/candidate/bin/gradle'),
@@ -202,7 +209,7 @@ def main():
     parser.add_argument('--warmups', type=int, default=1)
     parser.add_argument('--scenario', choices=['fresh', 'all'], default='all')
     args = parser.parse_args()
-    if not 100 <= args.files <= 10000 or not 3 <= args.runs <= 10 or not 1 <= args.warmups <= 3:
+    if not 100 <= args.files <= 50000 or not 3 <= args.runs <= 10 or not 1 <= args.warmups <= 3:
         parser.error('Experiment dimensions exceed the bounded free-runner limits')
     OUT.mkdir(parents=True, exist_ok=True)
     if args.action == 'build':
