@@ -10,7 +10,7 @@ The `Normalized source cache experiment` workflow runs only by manual dispatch o
 
 Each session builds both source distributions on the same VM. The baseline restores only the routing source to the pinned revision; all other production sources must match that revision. It checks the original 16 unit cases, confirms the two new reuse cases fail under the original routing, checks all 23 candidate unit cases, and runs the 10 existing native integration cases plus performance scenario metadata verification. Source-build test retries are disabled so expected failures and flaky failures remain visible in the exact test counts.
 
-The portable functional check and paired benchmark cases run after source builds finish. Fresh checkouts and the raw-input negative control use the requested file count. Cold-cache and concurrent cases use at most 1,000 files; the cold-cache control uses at most three measured pairs to bound disk use. Actual dimensions are recorded in each report. Matrix sessions run sequentially on separate fresh VMs.
+The portable functional check and paired benchmark cases run after source builds finish. Fresh checkouts and the raw-input negative control use the requested file count. Cold-cache and concurrent cases use at most 1,000 files; the cold-cache control uses at most three measured pairs to bound disk use. Actual dimensions are recorded in each report. Up to three matrix sessions run in parallel on separate fresh VMs, each comparing both variants within its own job.
 
 These are exploratory measurements on shared hosted infrastructure. Repeat sessions and retain adverse results; a successful workflow alone does not establish a performance benefit.
 
