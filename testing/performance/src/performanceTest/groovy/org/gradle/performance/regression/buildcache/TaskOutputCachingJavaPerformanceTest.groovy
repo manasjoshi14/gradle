@@ -16,7 +16,6 @@
 
 package org.gradle.performance.regression.buildcache
 
-import groovy.json.JsonOutput
 import org.gradle.performance.annotations.RunFor
 import org.gradle.performance.annotations.Scenario
 import org.gradle.performance.fixture.CrossVersionPerformanceTestRunner
@@ -276,9 +275,9 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
             digest.update(content)
             digest.update((byte) 0)
         }
-        new File(settings.outputDir, "source-inventory.json").text = JsonOutput.toJson([
-            files: sources.size(), bytes: bytes, sha256: digest.digest().encodeHex().toString()
-        ])
+        def sha256 = digest.digest().encodeHex().toString()
+        new File(settings.outputDir, "source-inventory.json").text =
+            """{"files":${sources.size()},"bytes":${bytes},"sha256":"${sha256}"}\n"""
     }
 
     static def setupTestProject(CrossVersionPerformanceTestRunner runner) {
