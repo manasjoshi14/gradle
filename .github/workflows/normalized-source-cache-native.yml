@@ -28,7 +28,11 @@ jobs:
           echo "EXPERIMENT_ROOT=$RUNNER_TEMP/normalized-cache-experiment" >> "$GITHUB_ENV"
           echo "GRADLE_USER_HOME=$RUNNER_TEMP/source-gradle-home" >> "$GITHUB_ENV"
       - name: Load pinned baseline commit
-        run: git fetch --no-tags --depth=1 https://github.com/manasjoshi14/gradle.git e04ee63317eeb36ac5102b6a3aa7e6cd931850a2
+        run: git fetch --no-tags --depth=1 https://github.com/manasjoshi14/gradle.git e04ee63317eeb36ac5102b6a3aa7e6cd931850a2:refs/heads/experiment-baseline
+      - name: Verify the native baseline can be cloned
+        run: |
+          git clone --no-checkout . "$RUNNER_TEMP/baseline-checkout-probe"
+          git -C "$RUNNER_TEMP/baseline-checkout-probe" checkout --detach e04ee63317eeb36ac5102b6a3aa7e6cd931850a2
       - name: Set up fixed JDK
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad
         with:
