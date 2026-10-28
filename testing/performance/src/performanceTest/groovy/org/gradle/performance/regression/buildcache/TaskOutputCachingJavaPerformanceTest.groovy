@@ -190,6 +190,9 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
                 void beforeBuild(BuildContext context) {
                     invocationSettings.buildLog.text = ""
                     if (context.phase == Phase.WARM_UP && context.iteration == 1) {
+                        if (Integer.getInteger("org.gradle.performance.normalizedCacheSourceFiles", 50000) > 50000) {
+                            new File(invocationSettings.projectDir, "build.gradle") << "\ntasks.withType(org.gradle.jvm.tasks.Jar).configureEach { zip64 = true }\n"
+                        }
                         recordSourceInventory(invocationSettings)
                     }
                 }

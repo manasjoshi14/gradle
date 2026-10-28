@@ -135,6 +135,8 @@ For the size-scaling campaign, the native workflow accepts 10,000, 50,000, 100,0
 
 Before the first warmup, each native version records its main Java file count, bytes and SHA-256 over sorted relative paths and contents. The collector retains these inventories, and the CI driver requires both variants to have the requested count and identical source inventories. This validation happens outside measured invocations. The generator also writes test sources; the requested counts and measured `assemble` workload refer to main sources.
 
+The 100,000- and 150,000-source fixtures require ZIP64 because their output JARs exceed the legacy 65,535-entry limit. The scenario enables ZIP64 on both variants before the first warmup for these sizes. The original 10,000- and 50,000-source archive settings are retained.
+
 ## Decision after runner measurements
 
 Proceed only if the new-checkout improvement is reproducible in input fingerprinting and relevant build wall time, with acceptable warm-build, first-build, cache-growth, and concurrency costs. Report variability and negative controls. If the result is noise, negligible build savings, or unacceptable regressions, discard the candidate. Long-lived daemon memory and peak process memory remain separate follow-up measurements; the portable fixture uses single-use daemons and captures only final heap diagnostics.
