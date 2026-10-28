@@ -1,0 +1,49 @@
+name: Normalized source cache native Java benchmark
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: normalized-cache-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-java:
+    if: github.repository == 'manasjoshi14/gradle' && !github.event.repository.private
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      EXPERIMENT_SESSION: native-java
+    steps:
+      - name: Check out experiment
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set experiment directories
+        run: |
+          echo "EXPERIMENT_ROOT=$RUNNER_TEMP/normalized-cache-experiment" >> "$GITHUB_ENV"
+          echo "GRADLE_USER_HOME=$RUNNER_TEMP/source-gradle-home" >> "$GITHUB_ENV"
+      - name: Load pinned baseline commit
+        run: git fetch --no-tags --depth=1 https://github.com/manasjoshi14/gradle.git e04ee63317eeb36ac5102b6a3aa7e6cd931850a2
+      - name: Set up fixed JDK
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad
+        with:
+          distribution: temurin
+          java-version: '25.0.3+9'
+      - name: Record runner capacity
+        run: |
+          df -h
+          lscpu
+          free -h
+          java -version
+      - name: Build both runtimes and verify correctness
+        run: python3 .github/experiments/normalized-source-cache/ci.py build
+      - name: Run generated Java cached assemble comparison
+        run: python3 .github/experiments/normalized-source-cache/ci.py native
+      - name: Export checksummed evidence into job log
+        if: always()
+        run: python3 .github/experiments/normalized-source-cache/ci.py export

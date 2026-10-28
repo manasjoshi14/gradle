@@ -113,6 +113,8 @@ This command is prepared from the repository's task and baseline-resolution impl
 
 The native scenario measures the same checkout with its project cache removed; the portable `fresh` scenario additionally changes the checkout path. Assess both, and compare the existing `clean assemble with local cache` scenario for ordinary builds.
 
+The fork also provides the manually dispatched `Normalized source cache native Java benchmark` workflow. It prepares the same pinned source comparison, then runs this native scenario with two warmups and five measured invocations per version. Profiling is disabled and performance regression checks are disabled for data collection; a green job means the experiment executed, rather than proving a speedup. Raw profiler CSV, small report files, native test XML and logs are retained in the checksummed job-log export. This workflow requires at least 20 GiB free after source preparation and uses no Actions artifact or cache upload.
+
 ## Decision after runner measurements
 
 Proceed only if the new-checkout improvement is reproducible in input fingerprinting and relevant build wall time, with acceptable warm-build, first-build, cache-growth, and concurrency costs. Report variability and negative controls. If the result is noise, negligible build savings, or unacceptable regressions, discard the candidate. Long-lived daemon memory and peak process memory remain separate follow-up measurements; the portable fixture uses single-use daemons and captures only final heap diagnostics.

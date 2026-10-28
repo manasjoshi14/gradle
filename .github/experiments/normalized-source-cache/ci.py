@@ -84,6 +84,7 @@ def build():
                'subprojects/core/src/test/groovy/org/gradle/api/internal/changedetection/state/SplitResourceSnapshotterCacheServiceTest.groovy',
                'testing/performance/src/performanceTest/groovy/org/gradle/performance/regression/buildcache/TaskOutputCachingJavaPerformanceTest.groovy',
                '.github/workflows/normalized-source-cache.yml'}
+    allowed.add('.github/workflows/normalized-source-cache-native.yml')
     assert all(path in allowed or path.startswith('.github/experiments/normalized-source-cache/') for path in changed), changed
     save('provenance.json', {'base': BASE, 'candidate_commit': head, 'changed_files': changed,
          'platform': platform.platform(), 'cpu_count': os.cpu_count(),
@@ -168,10 +169,40 @@ def benchmark(files, runs, warmups, scenario):
         save('benchmark-index.json', {'exploratory': True, 'cases': reports})
 
 
+def native():
+    if shutil.disk_usage(OUT).free < 20 * 1024 ** 3:
+        raise RuntimeError('Native generated-Java comparison requires at least 20 GiB free after source preparation')
+    task = 'largeMonolithicJavaProjectPerformanceAdHocTest'
+    code = gradle([':performance:' + task, '--tests',
+                   'org.gradle.performance.regression.buildcache.TaskOutputCachingJavaPerformanceTest.clean assemble with local cache and cold project cache',
+                   '-PperformanceBaselines=9.10.0-commit-' + BASE,
+                   '--warmups=2', '--runs=5', '--profiler=none', '--checks=none'], 'native-java-performance')
+    destination = OUT / 'native'
+    destination.mkdir(exist_ok=True)
+    source = REPO / 'testing/performance/build' / task
+    retained = []
+    for path in source.rglob('*'):
+        if path.is_file() and path.suffix in ('.csv', '.json', '.log', '.txt', '.html') and path.stat().st_size <= 4 * 1024 ** 2:
+            target = destination / path.relative_to(source)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, target)
+            retained.append(str(target.relative_to(OUT)))
+    save('native-run.json', {'returncode': code, 'baseline_revision': BASE,
+                            'warmups_per_version': 2, 'measured_runs_per_version': 5,
+                            'retained_reports': retained, 'checks': 'none; collect adverse measurements too',
+                            'profiler': 'none'})
+    if code:
+        raise RuntimeError('Native Java benchmark failed; retained logs and any partial reports')
+    results = test_results('native-performance', ['testing/performance/build/test-results/' + task])
+    assert results['failures'] == results['errors'] == 0 and results['tests'] > results['skipped'], results
+    assert any(Path(path).name == 'benchmark.csv' for path in retained), 'Missing raw profiler measurements'
+
+
 def export():
     paths = set(OUT.glob('*.json'))
     paths.update((OUT / 'logs').glob('*.log'))
     paths.update((OUT / 'tests').rglob('*.xml'))
+    paths.update(path for path in (OUT / 'native').rglob('*') if path.is_file())
     for result in (OUT / 'results').glob('*'):
         if (result / 'report.json').exists():
             paths.add(result / 'report.json')
@@ -203,7 +234,7 @@ def export():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['build', 'benchmark', 'export'])
+    parser.add_argument('action', choices=['build', 'benchmark', 'native', 'export'])
     parser.add_argument('--files', type=int, default=1000)
     parser.add_argument('--runs', type=int, default=5)
     parser.add_argument('--warmups', type=int, default=1)
@@ -216,6 +247,8 @@ def main():
         build()
     elif args.action == 'benchmark':
         benchmark(args.files, args.runs, args.warmups, args.scenario)
+    elif args.action == 'native':
+        native()
     else:
         export()
 
