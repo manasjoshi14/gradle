@@ -1,9 +1,10 @@
 gradle.lifecycle.beforeProject { project ->
     if (project.path == ':performance') {
+        def sourceFiles = project.providers.environmentVariable('NORMALIZED_CACHE_SOURCE_FILES').orElse('50000').get()
         project.tasks.configureEach { task ->
-            if (task.name == 'largeMonolithicJavaProject') {
-                task.inputs.property('normalizedCacheSourceFiles',
-                    project.providers.environmentVariable('NORMALIZED_CACHE_SOURCE_FILES').orElse('50000'))
+            if (task.name in ['largeMonolithicJavaProject', 'largeMonolithicJavaProjectPerformanceAdHocTest']) {
+                task.inputs.property('normalizedCacheSourceFiles', sourceFiles)
+                task.systemProperty('org.gradle.performance.normalizedCacheSourceFiles', sourceFiles)
             }
         }
     }

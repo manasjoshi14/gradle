@@ -262,8 +262,10 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
             }
         }
         sources.sort { it.path }
-        int expected = Integer.parseInt(System.getenv("NORMALIZED_CACHE_SOURCE_FILES") ?: "50000")
-        assert sources.size() == expected
+        int expected = Integer.parseInt(System.getProperty("org.gradle.performance.normalizedCacheSourceFiles", "50000"))
+        if (sources.size() != expected) {
+            throw new IllegalStateException("Expected ${expected} main Java source files, found ${sources.size()}")
+        }
         def digest = MessageDigest.getInstance("SHA-256")
         long bytes = 0
         sources.each { source ->

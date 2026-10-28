@@ -204,9 +204,11 @@ def native(files):
                             'requested_warmups_per_version': 2, 'requested_measured_runs_per_version': 5,
                             'retained_reports': retained, 'checks': 'none; collect adverse measurements too',
                             'profiler': 'none'})
+    result_directory = 'testing/performance/build/test-results/' + task
+    results = test_results('native-performance', [result_directory]) if any((REPO / result_directory).glob('TEST-*.xml')) else None
     if code:
-        raise RuntimeError('Native Java benchmark failed; retained logs and any partial reports')
-    results = test_results('native-performance', ['testing/performance/build/test-results/' + task])
+        raise RuntimeError('Native Java benchmark failed; retained logs, test XML and any partial reports')
+    assert results is not None, 'Missing native performance test XML'
     assert results['failures'] == results['errors'] == 0 and results['tests'] > results['skipped'], results
     assert any(Path(path).name == 'benchmark.csv' for path in retained), 'Missing raw profiler measurements'
     inventories = [json.loads(path.read_text()) for path in destination.rglob('source-inventory.json')]
