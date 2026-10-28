@@ -1,0 +1,55 @@
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import org.gradle.work.NormalizeLineEndings
+
+abstract class SourceDigest extends DefaultTask {
+    @InputFiles
+    @IgnoreEmptyDirectories
+    @PathSensitive(PathSensitivity.RELATIVE)
+    abstract ConfigurableFileCollection getSources()
+
+    @Input
+    abstract Property<Boolean> getNormalizeOutput()
+
+    @OutputFile
+    abstract RegularFileProperty getMarker()
+
+    @TaskAction
+    void digest() {
+        def digest = MessageDigest.getInstance('SHA-256')
+        sources.files.sort { it.absolutePath }.each { source ->
+            byte[] content = source.bytes
+            if (normalizeOutput.get() && !content.contains((byte) 0)) {
+                content = new String(content, StandardCharsets.UTF_8)
+                    .replace('\r\n', '\n').replace('\r', '\n')
+                    .getBytes(StandardCharsets.UTF_8)
+            }
+            digest.update(content)
+        }
+        def output = marker.get().asFile
+        output.parentFile.mkdirs()
+        output.text = digest.digest().encodeHex().toString() + '\n'
+    }
+}
+
+@CacheableTask
+abstract class NormalizedSourceDigest extends SourceDigest {
+    @Override
+    @NormalizeLineEndings
+    abstract ConfigurableFileCollection getSources()
+}
+
+@CacheableTask
+abstract class RawSourceDigest extends SourceDigest {}
+
+tasks.register('fingerprintNormalized', NormalizedSourceDigest) {
+    sources.from(fileTree('src') { include '**/*.java' })
+    normalizeOutput = true
+    marker = layout.buildDirectory.file('fingerprintNormalized.txt')
+}
+
+tasks.register('fingerprintRaw', RawSourceDigest) {
+    sources.from(fileTree('src') { include '**/*.java' })
+    normalizeOutput = false
+    marker = layout.buildDirectory.file('fingerprintRaw.txt')
+}

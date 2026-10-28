@@ -1,0 +1,63 @@
+import groovy.json.JsonOutput
+import org.gradle.api.internal.tasks.SnapshotTaskInputsBuildOperationType
+import org.gradle.api.internal.tasks.execution.ExecuteTaskBuildOperationType
+import org.gradle.api.services.BuildService
+import org.gradle.api.services.BuildServiceParameters
+import org.gradle.internal.build.event.BuildEventListenerRegistryInternal
+import org.gradle.internal.hash.HashCode
+import org.gradle.internal.operations.*
+
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CopyOnWriteArrayList
+
+interface CaptureParameters extends BuildServiceParameters {
+    RegularFileProperty getOutputFile()
+}
+
+abstract class Capture implements BuildService<CaptureParameters>, BuildOperationListener, AutoCloseable {
+    private final Map<Long, Map> inputs = new ConcurrentHashMap<>()
+    private final Map<String, Map> tasks = new ConcurrentHashMap<>()
+    private final List<String> errors = new CopyOnWriteArrayList<>()
+
+    void started(BuildOperationDescriptor descriptor, OperationStartEvent event) {}
+    void progress(OperationIdentifier identifier, OperationProgressEvent event) {}
+
+    void finished(BuildOperationDescriptor descriptor, OperationFinishEvent event) {
+        try {
+            if (event.result instanceof SnapshotTaskInputsBuildOperationType.Result) {
+                byte[] hash = event.result.hashBytes
+                inputs.put(descriptor.parentId.id, [
+                    inputSnapshotMs: event.endTime - event.startTime,
+                    key: hash == null ? null : HashCode.fromBytes(hash).toString()
+                ])
+            }
+            if (event.result instanceof ExecuteTaskBuildOperationType.Result) {
+                Map input = inputs.remove(descriptor.id.id) ?: [:]
+                tasks.put(descriptor.details.task.identityPath.toString(), input + [
+                    taskMs: event.endTime - event.startTime,
+                    outcome: event.result.skipMessage ?: 'EXECUTED',
+                    failed: event.failure != null
+                ])
+            }
+        } catch (Exception failure) {
+            errors.add(failure.toString())
+        }
+    }
+
+    void close() {
+        def runtime = Runtime.runtime
+        parameters.outputFile.get().asFile.text = JsonOutput.toJson([
+            tasks: tasks, errors: errors,
+            finalHeapUsedBytes: runtime.totalMemory() - runtime.freeMemory(),
+            finalHeapCommittedBytes: runtime.totalMemory(),
+            heapMaxBytes: runtime.maxMemory()
+        ])
+    }
+}
+
+if (gradle.parent == null) {
+    def capture = gradle.sharedServices.registerIfAbsent('normalizedCacheCapture', Capture) {
+        parameters.outputFile.fileValue(new File(System.getProperty('experiment.operations')))
+    }
+    gradle.services.get(BuildEventListenerRegistryInternal).onOperationCompletion(capture)
+}

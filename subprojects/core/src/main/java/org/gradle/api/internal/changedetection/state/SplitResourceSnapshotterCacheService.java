@@ -27,8 +27,8 @@ import org.jspecify.annotations.Nullable;
 import java.io.IOException;
 
 /**
- * A {@link ResourceSnapshotterCacheService} that delegates to the global service for immutable files
- * and uses the local service for all other files. This ensures optimal cache utilization.
+ * A {@link ResourceSnapshotterCacheService} that shares normalized file content hashes globally.
+ * Classpath resource hashes use the global service for immutable files and the local service for all other files.
  */
 public class SplitResourceSnapshotterCacheService implements ResourceSnapshotterCacheService {
     private final ResourceSnapshotterCacheService globalCache;
@@ -44,11 +44,7 @@ public class SplitResourceSnapshotterCacheService implements ResourceSnapshotter
     @Nullable
     @Override
     public HashCode hashFile(FileSystemLocationSnapshot snapshot, FileSystemLocationSnapshotHasher hasher, HashCode configurationHash) throws IOException {
-        if (globalCacheLocations.isInsideGlobalCache(snapshot.getAbsolutePath())) {
-            return globalCache.hashFile(snapshot, hasher, configurationHash);
-        } else {
-            return localCache.hashFile(snapshot, hasher, configurationHash);
-        }
+        return globalCache.hashFile(snapshot, hasher, configurationHash);
     }
 
     @Override

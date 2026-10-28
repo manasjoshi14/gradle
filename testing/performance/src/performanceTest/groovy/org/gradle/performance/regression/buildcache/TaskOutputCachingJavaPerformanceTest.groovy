@@ -157,6 +157,29 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
         result.assertCurrentVersionHasNotRegressed()
     }
 
+    @RunFor(
+        @Scenario(type = PER_DAY, operatingSystems = [LINUX], testProjects = ["largeMonolithicJavaProject"])
+    )
+    def "clean assemble with local cache and cold project cache"() {
+        given:
+        setupTestProject(runner)
+        runner.minimumBaseVersion = "7.2"
+        runner.useDaemon = false
+        runner.args += "--no-watch-fs"
+        runner.warmUpRuns = 3
+        runner.runs = 10
+        pushToRemote = false
+        runner.addBuildMutator { invocationSettings ->
+            new ClearProjectCacheMutator(invocationSettings.projectDir, AbstractScheduledMutator.Schedule.BUILD)
+        }
+
+        when:
+        def result = runner.run()
+
+        then:
+        result.assertCurrentVersionHasNotRegressed()
+    }
+
     @RunFor([
         @Scenario(type = PER_COMMIT, operatingSystems = [LINUX], testProjects = ["largeJavaMultiProject"],
             comment = "We only test the multi-project here since for the monolithic project we would have no cache hits. This would mean we actually would test incremental compilation."
