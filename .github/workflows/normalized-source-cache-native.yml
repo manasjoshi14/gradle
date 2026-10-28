@@ -3,6 +3,11 @@ name: Normalized source cache native Java benchmark
 on:
   workflow_dispatch:
     inputs:
+      files:
+        description: Generated main Java source files
+        type: choice
+        options: ['10000', '50000', '100000', '150000']
+        default: '50000'
       sessions:
         description: Independent free runner sessions
         type: choice
@@ -13,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: normalized-cache-native-${{ github.ref }}
+  group: normalized-cache-native-${{ github.ref }}-${{ inputs.files }}
   cancel-in-progress: false
 
 jobs:
@@ -52,13 +57,16 @@ jobs:
       - name: Record runner capacity
         run: |
           df -h
+          df -i
           lscpu
           free -h
           java -version
       - name: Build both runtimes and verify correctness
         run: python3 .github/experiments/normalized-source-cache/ci.py build
       - name: Run generated Java cached assemble comparison
-        run: python3 .github/experiments/normalized-source-cache/ci.py native
+        env:
+          EXPERIMENT_FILES: ${{ inputs.files }}
+        run: python3 .github/experiments/normalized-source-cache/ci.py native --files "$EXPERIMENT_FILES"
       - name: Export checksummed evidence into job log
         if: always()
         run: python3 .github/experiments/normalized-source-cache/ci.py export

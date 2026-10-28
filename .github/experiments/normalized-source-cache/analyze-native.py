@@ -13,6 +13,12 @@ BASE = 'e04ee63317eeb36ac5102b6a3aa7e6cd931850a2'
 def analyze(session, require_traces):
     run = json.loads((session / 'native-run.json').read_text())
     assert run['returncode'] == 0, run
+    source_inventory = None
+    if 'requested_main_java_source_files' in run:
+        validation = json.loads((session / 'native-source-validation.json').read_text())
+        assert validation['passed']
+        source_inventory = validation['both_variants']
+        assert source_inventory['files'] == run['requested_main_java_source_files'], validation
     sources = list((session / 'native').rglob('benchmark.csv'))
     assert len(sources) == 1, sources
     samples = {'baseline': [], 'candidate': []}
@@ -41,6 +47,7 @@ def analyze(session, require_traces):
         assert all(len(paths) == 5 for paths in traces.values()), traces
     medians = {label: statistics.median(values) for label, values in samples.items()}
     return {'session': session.name, 'source_csv': str(sources[0].relative_to(session)),
+            'source_inventory': source_inventory,
             'tools': tools, 'measured_seconds': samples, 'warmup_seconds': warmups,
             'baseline_median_seconds': medians['baseline'],
             'candidate_median_seconds': medians['candidate'],

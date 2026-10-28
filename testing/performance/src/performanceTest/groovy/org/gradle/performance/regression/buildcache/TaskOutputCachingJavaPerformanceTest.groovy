@@ -16,6 +16,7 @@
 
 package org.gradle.performance.regression.buildcache
 
+import groovy.json.JsonOutput
 import org.gradle.performance.annotations.RunFor
 import org.gradle.performance.annotations.Scenario
 import org.gradle.performance.fixture.CrossVersionPerformanceTestRunner
@@ -23,12 +24,16 @@ import org.gradle.performance.fixture.JavaTestProject
 import org.gradle.performance.mutator.RetryingClearGradleUserHomeMutator
 import org.gradle.profiler.BuildContext
 import org.gradle.profiler.BuildMutator
+import org.gradle.profiler.InvocationSettings
 import org.gradle.profiler.Phase
 import org.gradle.profiler.mutations.AbstractScheduledMutator
 import org.gradle.profiler.mutations.ApplyAbiChangeToJavaSourceFileMutator
 import org.gradle.profiler.mutations.ApplyNonAbiChangeToJavaSourceFileMutator
 import org.gradle.profiler.mutations.ClearProjectCacheMutator
 import org.gradle.test.fixtures.keystore.TestKeyStore
+
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
 
 import static org.gradle.performance.annotations.ScenarioType.PER_COMMIT
 import static org.gradle.performance.annotations.ScenarioType.PER_DAY
@@ -185,6 +190,9 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
                 @Override
                 void beforeBuild(BuildContext context) {
                     invocationSettings.buildLog.text = ""
+                    if (context.phase == Phase.WARM_UP && context.iteration == 1) {
+                        recordSourceInventory(invocationSettings)
+                    }
                 }
 
                 @Override
@@ -244,6 +252,33 @@ class TaskOutputCachingJavaPerformanceTest extends AbstractTaskOutputCachingPerf
 
         then:
         result.assertCurrentVersionHasNotRegressed()
+    }
+
+    private static void recordSourceInventory(InvocationSettings settings) {
+        def root = new File(settings.projectDir, "src/main/java")
+        List<File> sources = []
+        root.eachFileRecurse { file ->
+            if (file.isFile() && file.name.endsWith(".java")) {
+                sources.add(file)
+            }
+        }
+        sources.sort { it.path }
+        int expected = Integer.parseInt(System.getenv("NORMALIZED_CACHE_SOURCE_FILES") ?: "50000")
+        assert sources.size() == expected
+        def digest = MessageDigest.getInstance("SHA-256")
+        long bytes = 0
+        sources.each { source ->
+            def relative = root.toPath().relativize(source.toPath()).toString()
+            digest.update(relative.getBytes(StandardCharsets.UTF_8))
+            digest.update((byte) 0)
+            def content = source.bytes
+            bytes += content.length
+            digest.update(content)
+            digest.update((byte) 0)
+        }
+        new File(settings.outputDir, "source-inventory.json").text = JsonOutput.toJson([
+            files: sources.size(), bytes: bytes, sha256: digest.digest().encodeHex().toString()
+        ])
     }
 
     static def setupTestProject(CrossVersionPerformanceTestRunner runner) {

@@ -32,10 +32,10 @@ enum JavaTestProjectGenerator {
         .testChangeFile(450, 2250, 45000).create()
     ),
     LARGE_MONOLITHIC_JAVA_PROJECT(new TestProjectGeneratorConfigurationBuilder("largeMonolithicJavaProject")
-        .withSourceFiles(50000)
+        .withSourceFiles(Integer.parseInt(System.getenv("NORMALIZED_CACHE_SOURCE_FILES") ?: "50000"))
         .withSubProjects(0)
         .withDaemonMemory('1536m')
-        .withCompilerMemory('4g')
+        .withCompilerMemory(System.getenv("NORMALIZED_CACHE_SOURCE_FILES") ? '8g' : '4g')
         .assembleChangeFile(-1)
         .testChangeFile(-1)
         .create()),

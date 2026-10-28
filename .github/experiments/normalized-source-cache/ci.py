@@ -85,6 +85,7 @@ def build():
                'testing/performance/src/performanceTest/groovy/org/gradle/performance/regression/buildcache/TaskOutputCachingJavaPerformanceTest.groovy',
                '.github/workflows/normalized-source-cache.yml'}
     allowed.add('.github/workflows/normalized-source-cache-native.yml')
+    allowed.add('testing/internal-performance-testing/src/main/groovy/org/gradle/performance/generator/JavaTestProjectGenerator.groovy')
     assert all(path in allowed or path.startswith('.github/experiments/normalized-source-cache/') for path in changed), changed
     save('provenance.json', {'base': BASE, 'candidate_commit': head, 'changed_files': changed,
          'platform': platform.platform(), 'cpu_count': os.cpu_count(),
@@ -178,14 +179,16 @@ def benchmark(files, runs, warmups, scenario):
         save('benchmark-index.json', {'exploratory': True, 'cases': reports})
 
 
-def native():
+def native(files):
     if shutil.disk_usage(OUT).free < 20 * 1024 ** 3:
         raise RuntimeError('Native generated-Java comparison requires at least 20 GiB free after source preparation')
     task = 'largeMonolithicJavaProjectPerformanceAdHocTest'
+    os.environ['NORMALIZED_CACHE_SOURCE_FILES'] = str(files)
     code = gradle([':performance:' + task, '--tests',
                    'org.gradle.performance.regression.buildcache.TaskOutputCachingJavaPerformanceTest.clean assemble with local cache and cold project cache',
                    '-PperformanceBaselines=9.10.0-commit-' + BASE,
-                   '--warmups=2', '--runs=5', '--profiler=none', '--checks=none'], 'native-java-performance')
+                   '--warmups=2', '--runs=5', '--profiler=none', '--checks=none',
+                   '--init-script', str(SUITE / 'native-scaling.init.gradle')], 'native-java-performance')
     destination = OUT / 'native'
     destination.mkdir(exist_ok=True)
     source = REPO / 'testing/performance/build' / task
@@ -197,6 +200,7 @@ def native():
             shutil.copy2(path, target)
             retained.append(str(target.relative_to(OUT)))
     save('native-run.json', {'returncode': code, 'baseline_revision': BASE,
+                            'requested_main_java_source_files': files,
                             'requested_warmups_per_version': 2, 'requested_measured_runs_per_version': 5,
                             'retained_reports': retained, 'checks': 'none; collect adverse measurements too',
                             'profiler': 'none'})
@@ -205,6 +209,10 @@ def native():
     results = test_results('native-performance', ['testing/performance/build/test-results/' + task])
     assert results['failures'] == results['errors'] == 0 and results['tests'] > results['skipped'], results
     assert any(Path(path).name == 'benchmark.csv' for path in retained), 'Missing raw profiler measurements'
+    inventories = [json.loads(path.read_text()) for path in destination.rglob('source-inventory.json')]
+    assert len(inventories) == 2 and inventories[0] == inventories[1], inventories
+    assert inventories[0]['files'] == files, inventories
+    save('native-source-validation.json', {'passed': True, 'both_variants': inventories[0]})
 
 
 def export():
@@ -244,11 +252,13 @@ def export():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['build', 'benchmark', 'native', 'export'])
-    parser.add_argument('--files', type=int, default=1000)
+    parser.add_argument('--files', type=int)
     parser.add_argument('--runs', type=int, default=5)
     parser.add_argument('--warmups', type=int, default=1)
     parser.add_argument('--scenario', choices=['fresh', 'all'], default='all')
     args = parser.parse_args()
+    if args.files is None:
+        args.files = 50000 if args.action == 'native' else 1000
     if not 100 <= args.files <= 150000 or not 3 <= args.runs <= 10 or not 1 <= args.warmups <= 3:
         parser.error('Experiment dimensions exceed the bounded free-runner limits')
     OUT.mkdir(parents=True, exist_ok=True)
@@ -257,7 +267,7 @@ def main():
     elif args.action == 'benchmark':
         benchmark(args.files, args.runs, args.warmups, args.scenario)
     elif args.action == 'native':
-        native()
+        native(args.files)
     else:
         export()
 
