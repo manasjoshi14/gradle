@@ -130,13 +130,22 @@ def build():
 
 
 def benchmark(files, runs, warmups, scenario):
-    estimated_bytes = files * 8192 * (2 * (runs + warmups) + 3) * (3 if scenario == 'all' else 2) + 4 * 1024 ** 3
+    retained_copies = 2 * (runs + warmups) + 3
+    large_cases = 3 if scenario == 'all' else 2
+    estimated_bytes = files * 8192 * retained_copies * large_cases + 4 * 1024 ** 3
+    estimated_inodes = int(files * retained_copies * large_cases * 1.02) + 100000
     free_bytes = shutil.disk_usage(OUT).free
+    filesystem = os.statvfs(OUT)
+    free_inodes = filesystem.f_favail if filesystem.f_files else None
     save('capacity.json', {'free_bytes_before_measurement': free_bytes,
                           'estimated_retained_workspace_bytes': estimated_bytes,
+                          'free_inodes_before_measurement': free_inodes,
+                          'estimated_retained_workspace_inodes': estimated_inodes,
                           'files': files, 'runs': runs, 'warmups': warmups, 'scenario': scenario})
     if free_bytes < estimated_bytes:
         raise RuntimeError(f'Insufficient runner disk: {free_bytes} free bytes; estimated {estimated_bytes} needed')
+    if free_inodes is not None and free_inodes < estimated_inodes:
+        raise RuntimeError(f'Insufficient runner inodes: {free_inodes} free; estimated {estimated_inodes} needed')
     common = [sys.executable, str(SUITE / 'run.py'),
               '--baseline', str(OUT / 'runtimes/baseline/bin/gradle'),
               '--candidate', str(OUT / 'runtimes/candidate/bin/gradle'),
@@ -240,7 +249,7 @@ def main():
     parser.add_argument('--warmups', type=int, default=1)
     parser.add_argument('--scenario', choices=['fresh', 'all'], default='all')
     args = parser.parse_args()
-    if not 100 <= args.files <= 50000 or not 3 <= args.runs <= 10 or not 1 <= args.warmups <= 3:
+    if not 100 <= args.files <= 150000 or not 3 <= args.runs <= 10 or not 1 <= args.warmups <= 3:
         parser.error('Experiment dimensions exceed the bounded free-runner limits')
     OUT.mkdir(parents=True, exist_ok=True)
     if args.action == 'build':

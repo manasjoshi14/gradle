@@ -6,7 +6,7 @@ on:
       files:
         description: Source files per serial case
         type: choice
-        options: ['1000', '5000', '10000', '50000']
+        options: ['1000', '5000', '10000', '50000', '100000', '150000']
         default: '1000'
       runs:
         description: Measured pairs per case
@@ -33,7 +33,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: normalized-cache-${{ github.ref }}
+  group: normalized-cache-${{ github.ref }}-${{ inputs.files }}
   cancel-in-progress: false
 
 jobs:
@@ -69,6 +69,7 @@ jobs:
       - name: Record runner capacity
         run: |
           df -h
+          df -i
           lscpu
           free -h
           java -version

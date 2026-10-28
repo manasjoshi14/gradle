@@ -14,7 +14,7 @@ Each session builds both source distributions on the same VM. The baseline resto
 
 The portable functional check and paired benchmark cases run after source builds finish. Fresh checkouts and the raw-input negative control use the requested file count. Cold-cache and concurrent cases use at most 1,000 files; the cold-cache control uses at most three measured pairs to bound disk use. Actual dimensions are recorded in each report. Up to three matrix sessions run in parallel on separate fresh VMs, each comparing both variants within its own job.
 
-The first hosted VM reported about 85 GiB free before building. Available space is not assumed for subsequent jobs: a conservative retained-workspace estimate is checked before measurements. The 50,000-file choice is available when that check passes.
+The first hosted VM reported about 85 GiB free before building. Available space is not assumed for subsequent jobs: conservative retained-workspace byte and inode estimates are checked before measurements. File-count choices extend to 150,000. With 8 KiB per file, 10 measured pairs and two warmup pairs, the fresh normalized case plus raw control at 150,000 files requires an estimated 65.8 GiB and 8.36 million free inodes. The all-six-case choice requires more space and may be refused. Different file-count workflow dispatches may run concurrently; each session still compares both distributions serially on its own VM.
 
 These are exploratory measurements on shared hosted infrastructure. Repeat sessions and retain adverse results; a successful workflow alone does not establish a performance benefit.
 
