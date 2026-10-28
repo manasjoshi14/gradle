@@ -1,0 +1,39 @@
+{
+  "pinned_revision": "e04ee63317eeb36ac5102b6a3aa7e6cd931850a2",
+  "global_normalized_hash_memory_reference_entries": 400000,
+  "local_normalized_hash_memory_reference_entries": 800000,
+  "limits_scale_with_jvm_heap": true,
+  "disk_retention_is_not_bounded_by_memory_reference": true,
+  "source_references": [
+    {
+      "path": "subprojects/core/src/main/java/org/gradle/internal/service/scopes/VirtualFileSystemServices.java",
+      "lines": [
+        292,
+        297,
+        425
+      ]
+    },
+    {
+      "path": "platforms/core-execution/persistent-cache/src/main/java/org/gradle/cache/internal/DefaultInMemoryCacheDecoratorFactory.java",
+      "lines": [
+        53,
+        61,
+        77,
+        82
+      ]
+    },
+    {
+      "path": "platforms/core-execution/persistent-cache/src/main/java/org/gradle/cache/internal/HeapProportionalCacheSizer.java",
+      "lines": [
+        45,
+        67
+      ]
+    }
+  ],
+  "measurement_limits": [
+    "Free-runner datasets do not saturate the configured metadata memory cache",
+    "Single-use daemon measurements do not establish long-lived daemon memory behavior",
+    "Recorded resourceCacheBytes describes the global normalized index, not total local-plus-global metadata disk use",
+    "On-disk entry retention and cleanup costs remain unverified"
+  ]
+}

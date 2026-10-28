@@ -4,6 +4,8 @@ This suite evaluates a single routing change in `SplitResourceSnapshotterCacheSe
 
 The pinned source baseline is `e04ee63317eeb36ac5102b6a3aa7e6cd931850a2`.
 
+[Results from 28 October 2026](results/hosted-20261028/RESULTS.md) include three synthetic sessions, three trace-verified native Java sessions, controls, raw sample summaries, hardware and limitations.
+
 ## Free GitHub Actions experiment
 
 The `Normalized source cache experiment` workflow runs only by manual dispatch on the public `manasjoshi14/gradle` fork. It uses standard `ubuntu-24.04` runners, performs no Actions cache or artifact upload, and has read-only repository permissions. It creates no issues or pull requests.

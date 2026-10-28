@@ -1,0 +1,31 @@
+{
+  "run_id": 40632716920,
+  "run_url": "https://github.com/manasjoshi14/gradle/actions/runs/40632716920",
+  "sessions": 3,
+  "successful_real_build_invocations": 540,
+  "ordinary_source_files": 50000,
+  "bytes_per_file": 8192,
+  "corpus_bytes": 409600000,
+  "measured_pairs_per_large_case_per_session": 10,
+  "fresh_elapsed_reduction_percent_range": [
+    39.48080130374585,
+    39.61103666830709
+  ],
+  "fresh_paired_seconds_saved_range": [
+    8.0091854125,
+    8.416333409500002
+  ],
+  "fresh_input_reduction_percent_range": [
+    49.1384995299582,
+    50.6485089062272
+  ],
+  "edited_source_elapsed_reduction_percent_range": [
+    32.45200899729852,
+    34.55647725096401
+  ],
+  "scope": "Synthetic source-fingerprinting task with a tiny cached output; not a backend build",
+  "cold_and_concurrent_file_limit": 1000,
+  "shared_hosted_runner_caveat": true,
+  "native_java_result": "passed; three trace-verified sessions; see native-summary.json",
+  "upstream_issue_or_pr_created": false
+}

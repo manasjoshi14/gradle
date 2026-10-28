@@ -1,0 +1,23 @@
+{
+  "checked_date_singapore": "2026-10-28",
+  "repository": "manasjoshi14/gradle",
+  "public": true,
+  "runner_label": "ubuntu-24.04",
+  "standard_hosted_runner": true,
+  "actions_artifact_count": 0,
+  "actions_active_cache_count": 0,
+  "actions_active_cache_bytes": 0,
+  "active_workflows": [
+    "Normalized source cache native Java benchmark",
+    "Normalized source cache experiment"
+  ],
+  "evidence_storage": "Job logs and summaries; local decoded copies",
+  "billing_source": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+  "billing_facts": [
+    "Standard GitHub-hosted runners in public repositories are free",
+    "Log files and job summaries do not count toward the artifact storage allowance"
+  ],
+  "paid_resources_provisioned": false,
+  "last_confirmed_utc": "2026-10-28T06:43:56.773960+00:00",
+  "all_experiment_runs_finished": true
+}

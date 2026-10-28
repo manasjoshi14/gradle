@@ -1,0 +1,58 @@
+[
+  {
+    "run_id": 40630741821,
+    "job": "Experiment session 1",
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40632716920,
+    "job": "Experiment session 2",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40632716920,
+    "job": "Experiment session 3",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40632716920,
+    "job": "Experiment session 1",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40636971330,
+    "job": "native-java",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40642071983,
+    "job": "native-java (2)",
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40642071983,
+    "job": "native-java (3)",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  },
+  {
+    "run_id": 40642071983,
+    "job": "native-java (1)",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "allocated_vcpus": 4,
+    "memory_reported": "15 GiB"
+  }
+]

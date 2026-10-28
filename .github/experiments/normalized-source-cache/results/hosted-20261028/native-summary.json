@@ -1,0 +1,198 @@
+{
+  "run_id": 40642071983,
+  "run_url": "https://github.com/manasjoshi14/gradle/actions/runs/40642071983",
+  "source_commit": "007fb3d547fc8547f8216ac15b7fc6547de83c52",
+  "sessions": 3,
+  "main_java_source_files": 50000,
+  "measured_runs_per_version_per_session": 5,
+  "warmups_per_version_per_session": 2,
+  "total_measured_invocations": 30,
+  "verified_measured_compile_java_cache_hits": 30,
+  "elapsed_median_reduction_percent_range": [
+    13.732747312249613,
+    17.15355299923936
+  ],
+  "elapsed_median_seconds_saved_range": [
+    3.5090199999999996,
+    3.84084
+  ],
+  "method": "Native Gradle generated-Java cached assemble, project cache cleared, cold daemon, fixed project path; candidate block before baseline block",
+  "shared_hosted_runner_caveat": true,
+  "version_order_not_counterbalanced": true,
+  "samples_dropped": 0,
+  "cases": [
+    {
+      "session": "session-native-1",
+      "source_csv": "native/clean-assemble-with-local-cach.ect-cache/benchmark.csv",
+      "tools": {
+        "candidate": "Gradle 9.10.0-20261026160000+0000",
+        "baseline": "Gradle 9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2"
+      },
+      "measured_seconds": {
+        "baseline": [
+          27.83622,
+          27.65331,
+          28.61438,
+          27.92391,
+          27.99393
+        ],
+        "candidate": [
+          24.08919,
+          24.454159999999998,
+          23.79059,
+          24.27524,
+          23.97703
+        ]
+      },
+      "warmup_seconds": {
+        "baseline": [
+          78.42892,
+          27.47302
+        ],
+        "candidate": [
+          80.65788,
+          24.11178
+        ]
+      },
+      "baseline_median_seconds": 27.92391,
+      "candidate_median_seconds": 24.08919,
+      "median_seconds_saved": 3.834720000000001,
+      "median_reduction_percent": 13.732747312249613,
+      "measured_compile_java_cache_hit_traces": {
+        "baseline": [
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-1.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-2.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-3.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-4.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-5.log"
+        ],
+        "candidate": [
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-1.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-2.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-3.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-4.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-5.log"
+        ]
+      },
+      "cache_hit_trace_verified": true,
+      "order": "candidate version block first, baseline version block second; not paired/interleaved",
+      "samples_dropped": 0
+    },
+    {
+      "session": "session-native-2",
+      "source_csv": "native/clean-assemble-with-local-cach.ect-cache/benchmark.csv",
+      "tools": {
+        "candidate": "Gradle 9.10.0-20261026160000+0000",
+        "baseline": "Gradle 9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2"
+      },
+      "measured_seconds": {
+        "baseline": [
+          20.57573,
+          20.45652,
+          20.55643,
+          20.29788,
+          20.00439
+        ],
+        "candidate": [
+          16.89383,
+          16.941419999999997,
+          17.346169999999997,
+          16.9475,
+          17.02402
+        ]
+      },
+      "warmup_seconds": {
+        "baseline": [
+          58.68822,
+          20.090580000000003
+        ],
+        "candidate": [
+          57.63867,
+          17.05038
+        ]
+      },
+      "baseline_median_seconds": 20.45652,
+      "candidate_median_seconds": 16.9475,
+      "median_seconds_saved": 3.5090199999999996,
+      "median_reduction_percent": 17.15355299923936,
+      "measured_compile_java_cache_hit_traces": {
+        "baseline": [
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-1.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-2.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-3.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-4.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-5.log"
+        ],
+        "candidate": [
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-1.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-2.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-3.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-4.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-5.log"
+        ]
+      },
+      "cache_hit_trace_verified": true,
+      "order": "candidate version block first, baseline version block second; not paired/interleaved",
+      "samples_dropped": 0
+    },
+    {
+      "session": "session-native-3",
+      "source_csv": "native/clean-assemble-with-local-cach.ect-cache/benchmark.csv",
+      "tools": {
+        "candidate": "Gradle 9.10.0-20261026160000+0000",
+        "baseline": "Gradle 9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2"
+      },
+      "measured_seconds": {
+        "baseline": [
+          27.61748,
+          27.85287,
+          28.4641,
+          27.901880000000002,
+          27.64129
+        ],
+        "candidate": [
+          23.8409,
+          23.798939999999998,
+          24.51491,
+          24.01203,
+          24.100240000000003
+        ]
+      },
+      "warmup_seconds": {
+        "baseline": [
+          77.53433,
+          27.52967
+        ],
+        "candidate": [
+          77.22153999999999,
+          23.61906
+        ]
+      },
+      "baseline_median_seconds": 27.85287,
+      "candidate_median_seconds": 24.01203,
+      "median_seconds_saved": 3.84084,
+      "median_reduction_percent": 13.789745904102523,
+      "measured_compile_java_cache_hit_traces": {
+        "baseline": [
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-1.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-2.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-3.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-4.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-commit-e04ee63317eeb36ac5102b6a3aa7e6cd931850a2/build-MEASURE-5.log"
+        ],
+        "candidate": [
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-1.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-2.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-3.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-4.log",
+          "native/clean-assemble-with-local-cach.ect-cache/9.10.0-20261026160000+0000/build-MEASURE-5.log"
+        ]
+      },
+      "cache_hit_trace_verified": true,
+      "order": "candidate version block first, baseline version block second; not paired/interleaved",
+      "samples_dropped": 0
+    }
+  ],
+  "backend_build_benchmarked": false,
+  "upstream_issue_or_pr_created": false
+}

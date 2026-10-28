@@ -1,0 +1,4 @@
+session,baseline_median_seconds,candidate_median_seconds,median_seconds_saved,median_reduction_percent,cache_hit_trace_verified
+session-native-1,27.92391,24.08919,3.834720000000001,13.732747312249613,True
+session-native-2,20.45652,16.9475,3.5090199999999996,17.15355299923936,True
+session-native-3,27.85287,24.01203,3.84084,13.789745904102523,True
