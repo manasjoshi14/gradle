@@ -188,7 +188,7 @@ def native():
             shutil.copy2(path, target)
             retained.append(str(target.relative_to(OUT)))
     save('native-run.json', {'returncode': code, 'baseline_revision': BASE,
-                            'warmups_per_version': 2, 'measured_runs_per_version': 5,
+                            'requested_warmups_per_version': 2, 'requested_measured_runs_per_version': 5,
                             'retained_reports': retained, 'checks': 'none; collect adverse measurements too',
                             'profiler': 'none'})
     if code:
